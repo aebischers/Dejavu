@@ -1,3 +1,4 @@
+// swift-tools-version:5.9
 // Copyright 2023 Esri
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// swift-tools-version: 6.2
-
 import PackageDescription
 
 let package = Package(
     name: "Dejavu",
     platforms: [
         .iOS(.v17),
-        .macCatalyst(.v17),
-        .visionOS(.v2)
+        .macCatalyst(.v17)
     ],
     products: [
         .library(
@@ -40,6 +38,10 @@ let package = Package(
             name: "Dejavu",
             dependencies: [
                 .product(name: "GRDB", package: "GRDB.swift")
+            ],
+            swiftSettings: [
+                .enableExperimentalFeature("AccessLevelOnImport"),
+                .enableExperimentalFeature("StrictConcurrency")
             ]
         ),
         .testTarget(
@@ -48,11 +50,3 @@ let package = Package(
         )
     ]
 )
-
-for target in package.targets {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility")
-    ]
-}
